@@ -1,0 +1,5 @@
+suites:
+  project_suite:
+    namespace: ProjectName\
+    src_path: app
+    spec_path: tests
