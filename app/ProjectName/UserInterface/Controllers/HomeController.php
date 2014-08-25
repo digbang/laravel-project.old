@@ -19,6 +19,6 @@ class HomeController extends Controller
 
 	public function showWelcome()
 	{
-		return \View::make('hello');
+		return \View::make('templates/hello');
 	}
 }
