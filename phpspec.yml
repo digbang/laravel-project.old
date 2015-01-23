@@ -1,5 +1,6 @@
 suites:
   project_suite:
-    namespace: ProjectName\
-    src_path: app
+    namespace: App\
+    src_path: src
     spec_path: tests
+    prs4_prefix: App\
