@@ -1,7 +1,6 @@
 /bootstrap/compiled.php
 /vendor
 composer.phar
-composer.lock
 .env.*.php
 .env.php
 .DS_Store
@@ -9,5 +8,11 @@ Thumbs.db
 /bower_components
 /node_modules
 /public/assets/*
+/public/uploads/*
 /.idea
 /.vagrant
+/app/storage/cache/*
+/app/storage/logs/*
+/app/storage/meta/*
+/app/storage/sessions/*
+/app/storage/views/*

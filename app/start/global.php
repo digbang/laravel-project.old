@@ -12,7 +12,7 @@
 */
 
 ClassLoader::addDirectories(array(
-	app_path().'/database/seeds',
+	base_path('resources/database/seeds'),
 ));
 
 /*
@@ -22,11 +22,11 @@ ClassLoader::addDirectories(array(
 |
 | Here we will configure the error logger setup for the application which
 | is built on top of the wonderful Monolog library. By default we will
-| build a basic log file setup which creates a single file for logs.
+| build a rotating log file setup which creates a log file for each day.
 |
 */
 
-Log::useFiles(storage_path().'/logs/laravel.log');
+Log::useDailyFiles(storage_path('logs'));
 
 /*
 |--------------------------------------------------------------------------
