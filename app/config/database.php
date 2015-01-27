@@ -47,14 +47,14 @@ return array(
 	'connections' => array(
 
 		'db_config' => array(
-			'driver'   => $_ENV['DB_DRIVER'],
-			'host'     => $_ENV['DB_HOST'],
-			'database' => $_ENV['DB_NAME'],
-			'username' => $_ENV['DB_USER'],
-			'password' => $_ENV['DB_PASSWORD'],
-			'charset'   => 'utf8',
-			'prefix'    => '',
-			'schema'   => $_ENV['DB_SCHEMA'],
+			'driver'   => array_get($_ENV, 'DB_DRIVER',   'pgsql'),
+			'host'     => array_get($_ENV, 'DB_HOST',     'localhost'),
+			'database' => array_get($_ENV, 'DB_NAME',     'project_name'),
+			'username' => array_get($_ENV, 'DB_USER',     'project_name'),
+			'password' => array_get($_ENV, 'DB_PASSWORD', 'project_name'),
+			'charset'  => 'utf8',
+			'prefix'   => '',
+			'schema'   => array_get($_ENV, 'DB_SCHEMA', 'public'),
 		),
 	),
 

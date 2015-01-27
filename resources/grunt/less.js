@@ -6,7 +6,7 @@ module.exports = {
 			cleancss: false
 		},
 		expand: true,
-		cwd: "./app/frontend/stylesheets/",
+		cwd: "./resources/stylesheets/",
 		src: "site.less",
 		dest: "./public/assets/css/",
 		ext: ".min.css"

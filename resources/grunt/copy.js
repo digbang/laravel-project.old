@@ -1,37 +1,26 @@
 module.exports = {
-	development: {
-		files: [
-			{
-				flatten: true,
-				expand: true,
-				src: './bower_components/less.js/dist/less-1.7.4.min.js',
-				dest: './public/assets/js/',
-				rename: function(dest){
-					return dest + 'less.js';
-				}
-			},
-			{
-				flatten: true,
-				expand: true,
-				src: './bower_components/requirejs/require.js',
-				dest: './public/assets/js/'
-			}
-		]
-	},
-	production: {
+	images: {
 		files: [
 			{
 				expand: true,
 				cwd: "./app/frontend/images/",
 				src: "**/**",
 				dest: "./public/assets/img/"
-			},
+			}
+		]
+	},
+	fonts: {
+		files: [
 			{
 				flatten: true,
 				expand: true,
 				src: './bower_components/font-awesome/fonts/*',
 				dest: './public/assets/fonts/'
-			},
+			}
+		]
+	},
+	js: {
+		files: [
 			{
 				flatten: true,
 				expand: true,
@@ -46,4 +35,4 @@ module.exports = {
 			}
 		]
 	}
-}
+};

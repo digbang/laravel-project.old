@@ -15,7 +15,7 @@ return array(
 	|
 	*/
 
-	'driver' => $_ENV['CACHE_DRIVER'],
+	'driver' => array_get($_ENV, 'CACHE_DRIVER', 'file'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,6 +80,6 @@ return array(
 	|
 	*/
 
-	'prefix' => $_ENV['CACHE_PREFIX'],
+	'prefix' => array_get($_ENV, 'CACHE_PREFIX', 'app_'),
 
 );

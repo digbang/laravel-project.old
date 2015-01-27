@@ -15,4 +15,12 @@ return array(
 
 	'debug' => true,
 
+	'providers' => append_config([
+		Barryvdh\Debugbar\ServiceProvider::class,
+		// Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+	]),
+
+	'aliases' => append_config([
+		'Debugbar' => Barryvdh\Debugbar\Facade::class,
+	])
 );

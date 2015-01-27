@@ -1,5 +1,5 @@
 <?php
-return array(
+return [
 
 	/*
 	|--------------------------------------------------------------------------
@@ -12,7 +12,7 @@ return array(
 	|
 	*/
 
-	'debug' => !isset($_SERVER['APP_ENV']) ?: $_SERVER['APP_ENV'] != 'production',
+	'debug' => array_get($_ENV, 'DEBUG_MODE', false),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'url' => $_ENV['SERVER_URL'],
+	'url' => array_get($_ENV, 'SERVER_URL', 'local.project-name.db'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return array(
 	|
 	*/
 
-	'timezone' => 'UTC',
+	'timezone' => array_get($_ENV, 'TIMEZONE', 'America/Argentina/Buenos_Aires'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -96,7 +96,7 @@ return array(
 	*/
 
 	'providers' => array(
-
+		// Laravel
 		Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
 		Illuminate\Auth\AuthServiceProvider::class,
 		Illuminate\Cache\CacheServiceProvider::class,
@@ -123,15 +123,17 @@ return array(
 		Illuminate\Validation\ValidationServiceProvider::class,
 		Illuminate\View\ViewServiceProvider::class,
 		Illuminate\Workbench\WorkbenchServiceProvider::class,
-		Mitch\LaravelDoctrine\LaravelDoctrineServiceProvider::class,
+
+		// Dependencies
 		Jenssegers\Agent\AgentServiceProvider::class,
-		Barryvdh\Debugbar\ServiceProvider::class,
-		Fedeisas\LaravelJsRoutes\LaravelJsRoutesServiceProvider::class,
 		Intervention\Image\ImageServiceProvider::class,
 		Cviebrock\ImageValidator\ImageValidatorServiceProvider::class,
-		App\ServiceProviders\DomainServiceProvider::class,
-		App\ServiceProviders\DataSourceServiceProvider::class,
-		App\ServiceProviders\HttpServiceProvider::class
+		Fedeisas\LaravelJsRoutes\LaravelJsRoutesServiceProvider::class,
+
+		// Application
+		App\Domain\DomainServiceProvider::class,
+		App\DataSources\DataSourcesServiceProvider::class,
+		App\Http\HttpServiceProvider::class
 	),
 
 	/*
@@ -158,8 +160,9 @@ return array(
 	|
 	*/
 
-	'aliases' => array(
+	'aliases' => [
 
+		// Laravel
 		'App'               => Illuminate\Support\Facades\App::class,
 		'Artisan'           => Illuminate\Support\Facades\Artisan::class,
 		'Auth'              => Illuminate\Support\Facades\Auth::class,
@@ -198,8 +201,11 @@ return array(
 		'URL'               => Illuminate\Support\Facades\URL::class,
 		'Validator'         => Illuminate\Support\Facades\Validator::class,
 		'View'              => Illuminate\Support\Facades\View::class,
+
+		// Dependencies
 		'Agent'             => Jenssegers\Agent\Facades\Agent::class,
-		'Debugbar'          => Barryvdh\Debugbar\Facade::class,
 		'Image'             => Intervention\Image\Facades\Image::class,
-	),
-);
+
+		// Application
+	],
+];

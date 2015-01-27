@@ -16,7 +16,7 @@ return array(
 	|
 	*/
 
-	'driver' => $_ENV['SESSION_DRIVER'],
+	'driver' => array_get($_ENV, 'SESSION_DRIVER', 'file'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -122,7 +122,7 @@ return array(
 	|
 	*/
 
-	'domain' => null,
+	'domain' => array_get($_ENV, 'DOMAIN', 'project-name.db'),
 
 	/*
 	|--------------------------------------------------------------------------

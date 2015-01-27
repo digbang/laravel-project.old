@@ -1,4 +1,4 @@
-<?php namespace App\ServiceProviders;
+<?php namespace App\Domain;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -11,6 +11,6 @@ class DomainServiceProvider extends ServiceProvider
 
 	public function register()
 	{
-		// Interface implementations, if any
+		// internal interface bindings (NOT repositories)
 	}
 }

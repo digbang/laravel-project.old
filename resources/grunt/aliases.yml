@@ -1,9 +1,2 @@
 build:
   - concurrent:build
-dev:
-  - concurrent:dev
-all:
-  - concurrent:all
-specs:
-  - shell:phpspec
-  - notify:phpspec_success

@@ -28,7 +28,7 @@ return array(
 	|
 	*/
 
-	'host' => $_ENV['SMTP_HOST'],
+	'host' => array_get($_ENV, 'SMTP_HOST', 'localhost'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return array(
 	|
 	*/
 
-	'port' => $_ENV['SMTP_PORT'],
+	'port' => array_get($_ENV, 'SMTP_PORT', 25),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -54,7 +54,10 @@ return array(
 	|
 	*/
 
-	'from' => unserialize($_ENV['SMTP_GLOBAL_FROM']),
+	'from' => [
+		'name'    => array_get($_ENV, 'SMTP_GLOBAL_FROM_NAME', 'ProjectName'),
+		'address' => array_get($_ENV, 'SMTP_GLOBAL_FROM_ADDRESS', 'info@project-name.com'),
+	],
 
 	/*
 	|--------------------------------------------------------------------------
@@ -80,7 +83,7 @@ return array(
 	|
 	*/
 
-	'username' => null,
+	'username' => array_get($_ENV, 'SMTP_USERNAME', null),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -93,7 +96,7 @@ return array(
 	|
 	*/
 
-	'password' => null,
+	'password' => array_get($_ENV, 'SMTP_PASSWORD', null),
 
 	/*
 	|--------------------------------------------------------------------------

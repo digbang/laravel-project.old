@@ -3,30 +3,26 @@ module.exports = {
 		livereload: true
 	},
 	requirejs: {
-		files: ["./app/frontend/javascript/**/*.js"],
-		tasks: "requirejs"
+		files: ["./resources/javascript/**/*.js"],
+		tasks: "concat"
 	},
 	less: {
-		files: ["./app/frontend/stylesheets/**/*.less"],
+		files: ["./resources/stylesheets/**/*.less"],
 		tasks: "less"
 	},
 	images: {
-		files: ["./app/frontend/images/**"],
-		tasks: "copy:production"
+		files: ["./resources/images/**"],
+		tasks: "copy"
 	},
 	dependencies: {
 		files: ["./bower_components/*"],
-		tasks: "all"
+		tasks: "build"
 	},
 	configFiles: {
 		files: ["Gruntfile.js", "grunt/*.js", "grunt/aliases.yaml"],
 		options: {
 			reload: true
 		},
-		tasks: "all"
-	},
-	php_specs: {
-		files: ["tests/**/*Spec.php", "app/**/*.php"],
-		tasks: ["specs"]
+		tasks: "build"
 	}
 };
