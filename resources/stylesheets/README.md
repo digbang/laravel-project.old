@@ -15,7 +15,7 @@ These element rules will determine the basic style of the site, while leaving ou
 ## CSS Modules
 
 CSS modules are interdependent on HTML modules. Files inside this folder should have a corresponding
-HTML file in the [html/modules folder](../html/modules) with the same name.
+HTML file in the [views/modules folder](../views/modules) with the same name.
 
 These style rules should be independent of outer context, and should make each module independent of it
 as well. A few guidelines to accomplish this are:
