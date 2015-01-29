@@ -11,14 +11,27 @@ class HttpServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->registerLogger();
+        $this->registerMaintenanceMode();
         $this->registerErrorHandler();
     }
 
     public function boot()
     {
-        $this->bootRoutes();
-        $this->bootFilters();
         $this->bootComposers();
+    }
+
+    private function registerLogger()
+    {
+        $this->app['log']->useDailyFiles(storage_path('logs') . '/laravel.log');
+    }
+
+    private function registerMaintenanceMode()
+    {
+        $this->app->down(function()
+        {
+            return \Response::make("Be right back!", 503);
+        });
     }
 
     private function registerErrorHandler()
@@ -31,28 +44,6 @@ class HttpServiceProvider extends ServiceProvider
                 return \Response::view('templates.error');
             }
         });
-    }
-
-    private function bootRoutes()
-    {
-        /** @type \Illuminate\Routing\Router $router */
-        $router = $this->app['router'];
-
-        foreach ($this->getClassesIn(__DIR__.'/Routes') as $className)
-        {
-            $this->app->make($className)->bind($router);
-        }
-    }
-
-    private function bootFilters()
-    {
-        /** @type \Illuminate\Routing\Router $router */
-        $router = $this->app['router'];
-
-        foreach ($this->getClassesIn(__DIR__.'/Filters') as $className)
-        {
-            $this->app->make($className)->bind($router);
-        }
     }
 
     public function bootComposers()
