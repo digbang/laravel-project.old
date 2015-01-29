@@ -11,17 +11,17 @@ class HttpServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->registerLogger();
         $this->registerMaintenanceMode();
         $this->registerErrorHandler();
     }
 
     public function boot()
     {
+        $this->bootLogger();
         $this->bootComposers();
     }
 
-    private function registerLogger()
+    private function bootLogger()
     {
         $this->app['log']->useDailyFiles(storage_path('logs') . '/laravel.log');
     }
