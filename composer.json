@@ -16,7 +16,8 @@
         "jenssegers/agent":           "~2.1",
         "intervention/image":         "~2.0",
         "cviebrock/image-validator":  "~1.0",
-        "fedeisas/laravel-js-routes": "~1.4"
+        "fedeisas/laravel-js-routes": "~1.4",
+        "guiwoda/route-binder":       "~1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar":   "~1.6",
@@ -36,6 +37,28 @@
             "Tests\\": "tests/"
         }
     },
+    "repositories" : [
+        {
+            "type": "vcs",
+            "url": "git@git.digbang.com:digbang/l4-backoffice.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@git.digbang.com:digbang/security.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@git.digbang.com:digbang/font-awesome.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@git.digbang.com:digbang/doctrine.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:guiwoda/doctrine2.git"
+        }
+    ],
     "scripts": {
         "post-install-cmd": [
             "php artisan clear-compiled",

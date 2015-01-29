@@ -17,7 +17,7 @@ return array(
 
 	'providers' => append_config([
 		Barryvdh\Debugbar\ServiceProvider::class,
-		// Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+		Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 	]),
 
 	'aliases' => append_config([

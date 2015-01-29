@@ -129,6 +129,7 @@ return [
 		Intervention\Image\ImageServiceProvider::class,
 		Cviebrock\ImageValidator\ImageValidatorServiceProvider::class,
 		Fedeisas\LaravelJsRoutes\LaravelJsRoutesServiceProvider::class,
+		GuiWoda\RouteBinder\RouteBinderServiceProvider::class,
 
 		// Application
 		App\Domain\DomainServiceProvider::class,
