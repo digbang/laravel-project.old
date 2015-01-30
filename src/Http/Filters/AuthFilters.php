@@ -71,46 +71,72 @@ final class AuthFilters implements RouteBinder
      */
     public function bind(Router $router)
     {
+        $router->filter(self::AUTH_DEFAULT, [$this, 'defaultAuth']);
+        $router->filter(self::AUTH_BASIC,   [$this, 'basic']);
+        $router->filter(self::AUTH_GUEST,   [$this, 'guest']);
+        $router->filter(self::AUTH_CSRF,    [$this, 'csrf']);
+    }
+
+    /**
+     * @return null|\Illuminate\Http\RedirectResponse
+     * @throws UnauthorizedHttpException
+     */
+    public function defaultAuth()
+    {
         /** @type \Illuminate\Auth\Guard $guard */
         $guard = $this->authManager->driver();
 
-        $router->filter(self::AUTH_DEFAULT, function() use ($guard)
+        if (! $guard->guest())
         {
-            if (! $guard->guest())
-            {
-                return null;
-            }
+            return null;
+        }
 
-            if ($this->request->ajax())
-            {
-                throw new UnauthorizedHttpException(
-                    sprintf('Basic realm="%s"', array_get($_ENV, 'DOMAIN', 'project-name'))
-                );
-            }
-
-            return $this->redirector->guest(route('login'));
-        });
-
-
-        $router->filter(self::AUTH_BASIC, function() use ($guard)
+        if ($this->request->ajax())
         {
-            return $guard->basic();
-        });
+            throw new UnauthorizedHttpException(
+                sprintf('Basic realm="%s"', array_get($_ENV, 'DOMAIN', 'project-name'))
+            );
+        }
 
-        $router->filter(self::AUTH_GUEST, function() use ($guard)
-        {
-            if ($guard->check())
-            {
-                return $this->redirector->to('/');
-            }
-        });
+        return $this->redirector->guest(route('login'));
+    }
 
-        $router->filter(self::AUTH_CSRF, function()
+    /**
+     * @return null|\Symfony\Component\HttpFoundation\Response
+     */
+    public function basic()
+    {
+        /** @type \Illuminate\Auth\Guard $guard */
+        $guard = $this->authManager->driver();
+
+        return $guard->basic();
+    }
+
+    /**
+     * @return null|\Illuminate\Http\RedirectResponse
+     */
+    public function guest()
+    {
+        /** @type \Illuminate\Auth\Guard $guard */
+        $guard = $this->authManager->driver();
+
+        if ($guard->check())
         {
-            if ($this->session->token() !== $this->request->get('_token'))
-            {
-                throw new TokenMismatchException;
-            }
-        });
+            return $this->redirector->to('/');
+        }
+
+        return null;
+    }
+
+    /**
+     * @return void
+     * @throws TokenMismatchException
+     */
+    public function csrf()
+    {
+        if ($this->session->token() !== $this->request->get('_token'))
+        {
+            throw new TokenMismatchException;
+        }
     }
 }
