@@ -34,6 +34,7 @@ if hash_key_equals($postgresql_values, 'install', 1) {
       version             => $postgresql_values['settings']['version']
     }->
     class { 'postgresql::server':
+      listen_addresses  => $postgresql_values['settings']['listen_addresses'],
       postgres_password => $postgresql_values['settings']['root_password'],
       version           => $postgresql_values['settings']['version'],
       require           => Group[$postgresql_values['settings']['user_group']]
@@ -74,6 +75,17 @@ if hash_key_equals($postgresql_values, 'install', 1) {
       location    => "${postgresql_adminer_webroot_location}/adminer",
       owner       => 'www-data',
       php_package => $postgresql_php_package
+    }
+  }
+
+  each( $postgresql_values['hba_rules'] ) |$description, $data| {
+    postgresql::server::pg_hba_rule { $description:
+      description => $description,
+      type        => $data['type'],
+      database    => $data['database'],
+      user        => $data['user'],
+      address     => $data['address'],
+      auth_method => $data['auth_method'],
     }
   }
 }
