@@ -4,7 +4,7 @@ vagrantfile-local:
         box:  puppetlabs/centos-6.5-32-puppet
         box_url:  puppetlabs/centos-6.5-32-puppet
         hostname: 'project-name-box'
-        memory: '1024'
+        memory: '2048'
         cpus: '2'
         chosen_provider: virtualbox
         network:
@@ -23,7 +23,9 @@ vagrantfile-local:
         provider:
             virtualbox:
                 modifyvm:
-                    natdnshostresolver1: on
+                    natdnshostresolver1: 'on'
+                    ioapic: 'on'
+                    vram: 12
             vmware:
                 numvcpus: 1
             parallels:
@@ -313,4 +315,3 @@ solr:
     settings:
         version: 4.10.2
         port: '8983'
-
