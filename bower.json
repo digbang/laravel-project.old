@@ -6,7 +6,7 @@
   ],
   "description": "Digbang's Skeleton of a new Laravel project.",
   "main": "site.js",
-  "license": "Proprietary",
+  "license": "proprietary",
   "homepage": "www.digbang.com",
   "private": true,
   "ignore": [

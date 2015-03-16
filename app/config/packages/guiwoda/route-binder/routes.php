@@ -1,10 +1,10 @@
 <?php
-$namespace = "App\\Http\\";
+$namespace = "App\\Http";
 
 $classes = [];
 foreach (new \DirectoryIterator(base_path('src/Http/Routes')) as $fileInfo)
 {
-    if (! $fileInfo->isDot() && $fileInfo->getExtension() == 'php')
+    if ($fileInfo->getExtension() == 'php')
     {
         $classes[] = "$namespace\\Routes\\" . $fileInfo->getBasename('.php');
     }
@@ -12,7 +12,7 @@ foreach (new \DirectoryIterator(base_path('src/Http/Routes')) as $fileInfo)
 
 foreach (new \DirectoryIterator(base_path('src/Http/Filters')) as $fileInfo)
 {
-    if (! $fileInfo->isDot() && $fileInfo->getExtension() == 'php')
+    if ($fileInfo->getExtension() == 'php')
     {
         $classes[] = "$namespace\\Filters\\" . $fileInfo->getBasename('.php');
     }

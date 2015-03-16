@@ -2,13 +2,13 @@
 vagrantfile-local:
     vm:
         box:  puppetlabs/centos-6.5-32-puppet
-        box_url:  puppetlabs/centos-6.5-32-puppet
+        box_url:  'file:////STORAGE/ImasD/Vagrant-boxes/centos-6.5-32-puppet.box'
         hostname: 'project-name-box'
         memory: '2048'
         cpus: '2'
         chosen_provider: virtualbox
         network:
-            private_network: 10.1.2.13
+            private_network: 10.1.2.14
             forwarded_port:
                 GCwq75YOagGA:
                     host: '8080'
@@ -59,6 +59,8 @@ server:
     install: '1'
     packages:
         - vim-common
+        - libcurl-devel
+        - libxml2-devel
 symlinks:
     "/var/www/html/local.project-name.db": "/vagrant"
 users_groups:
@@ -76,7 +78,7 @@ firewall:
                 - '5432'
                 - '8983'
                 - '5672'
-                - '13000'
+                - '11300'
                 - '6379'
             priority: '100'
             proto: tcp
@@ -101,6 +103,12 @@ apache:
             port: '80'
             setenv:
                 - 'APP_ENV local'
+            rewrites:
+                - rewrite_rule: '^(.+[^/])/$ $1 [R=301,L]'
+                - rewrite_cond:
+                    - '%{DOCUMENT_ROOT}%{REQUEST_URI} !-d'
+                    - '%{DOCUMENT_ROOT}%{REQUEST_URI} !-f'
+                  rewrite_rule: '. /index.php [L]'
             directories:
                 sl0kwnbspk8a:
                     provider: directory
@@ -156,18 +164,17 @@ php:
     composer_home: ''
     modules:
         php:
+            - common
+            - mbstring
+            - mcrypt
+            - gd
             - cli
             - intl
-            - mcrypt
-            - common
-            - gd
-            - mbstring
+            - memcached
         pear: {  }
         pecl:
             - pecl_http
             - solr
-            - memcache
-            - memcached
             - PDO
             - PDO_MYSQL
             - PDO_PGSQL
@@ -194,12 +201,19 @@ hhvm:
 xdebug:
     install: '1'
     settings:
-        xdebug.default_enable: '1'
-        xdebug.remote_autostart: '0'
-        xdebug.remote_connect_back: '1'
+        xdebug.default_enable: '0'
+        xdebug.trace_enable_trigger: '1'
+        xdebug.profiler_enable_trigger: '1'
         xdebug.remote_enable: '1'
+        xdebug.remote_autostart: '0'
         xdebug.remote_handler: dbgp
         xdebug.remote_port: '9000'
+        xdebug.remote_connect_back: '1'
+        xdebug.trace_format: '2'
+        xdebug.trace_output_dir: '/vagrant'
+        xdebug.profiler_output_dir: '/vagrant'
+        xdebug.trace_output_name: '%R.trace.%p'
+        xdebug.profiler_output_name: '%R.profiling.%p'
 xhprof:
     install: '0'
 wpcli:
@@ -214,8 +228,10 @@ ruby:
         dIVKkvYIJWc5:
             version: ''
 nodejs:
-    install: '0'
-    npm_packages: {  }
+    install: '1'
+    npm_packages:
+        - bower
+        - grunt-cli
 python:
     install: '1'
     packages: {  }
@@ -243,7 +259,7 @@ postgresql:
         root_password: '1234'
         user_group: postgres
         encoding: UTF8
-        version: '9.3'
+        version: '9.4'
     databases:
         NMf11dmPynEP:
             grant: ALL
@@ -267,7 +283,7 @@ mariadb:
     databases: {  }
     version: '10.0'
 sqlite:
-    install: '0'
+    install: '1'
     adminer: 0
     databases: {  }
 mongodb:
@@ -293,7 +309,7 @@ beanstalkd:
     install: '1'
     settings:
         listenaddress: 0.0.0.0
-        listenport: '13000'
+        listenport: '11300'
         maxjobsize: '65535'
         maxconnections: '1024'
         binlogdir: /var/lib/beanstalkd/binlog

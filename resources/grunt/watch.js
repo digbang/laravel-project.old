@@ -12,7 +12,7 @@ module.exports = {
 	},
 	images: {
 		files: ["./resources/images/**"],
-		tasks: "copy"
+		tasks: "copy:images"
 	},
 	dependencies: {
 		files: ["./bower_components/*"],

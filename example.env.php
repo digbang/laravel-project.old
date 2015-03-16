@@ -4,7 +4,7 @@ return [
 	'SERVER_URL' => 'http://local.project-name.db',
 	'DOMAIN'     => 'project-name.db',
 	'DEBUG_MODE' => true,
-	'TIMEZONE'   => 'UTC',
+	'TIMEZONE'   => 'America/Argentina/Buenos_Aires',
 
 	// Database configuration
 	'DB_DRIVER'   => 'pgsql',
@@ -26,7 +26,7 @@ return [
 	'SESSION_DRIVER' => 'file',
 
 	// Cache configuration
-	'CACHE_DRIVER' => 'memcached',
+	'CACHE_DRIVER' => 'array',
 	'CACHE_SERVERS' => serialize([
 		['host' => 'localhost', 'port' => 11211, 'weight' => 100]
 	]),

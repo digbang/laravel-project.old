@@ -3,7 +3,7 @@ module.exports = {
 		files: [
 			{
 				expand: true,
-				cwd: "./app/frontend/images/",
+				cwd: "./resources/images/",
 				src: "**/**",
 				dest: "./public/assets/img/"
 			}

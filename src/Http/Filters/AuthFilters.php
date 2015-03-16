@@ -1,6 +1,6 @@
 <?php namespace App\Http\Filters;
 
-use App\Contracts\Http\RouteBinder;
+use GuiWoda\RouteBinder\RouteBinder;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;

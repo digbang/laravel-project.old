@@ -126,15 +126,15 @@ return [
 
 		// Dependencies
 		Jenssegers\Agent\AgentServiceProvider::class,
-		Intervention\Image\ImageServiceProvider::class,
-		Cviebrock\ImageValidator\ImageValidatorServiceProvider::class,
-		Fedeisas\LaravelJsRoutes\LaravelJsRoutesServiceProvider::class,
 		GuiWoda\RouteBinder\RouteBinderServiceProvider::class,
+		Digbang\Doctrine\DoctrineServiceProvider::class,
+		Digbang\L4Backoffice\BackofficeServiceProvider::class,
 
 		// Application
 		App\Domain\DomainServiceProvider::class,
 		App\DataSources\DataSourcesServiceProvider::class,
-		App\Http\HttpServiceProvider::class
+		App\Http\HttpServiceProvider::class,
+		App\Console\ConsoleServiceProvider::class
 	),
 
 	/*
@@ -202,11 +202,6 @@ return [
 		'URL'               => Illuminate\Support\Facades\URL::class,
 		'Validator'         => Illuminate\Support\Facades\Validator::class,
 		'View'              => Illuminate\Support\Facades\View::class,
-
-		// Dependencies
 		'Agent'             => Jenssegers\Agent\Facades\Agent::class,
-		'Image'             => Intervention\Image\Facades\Image::class,
-
-		// Application
 	],
 ];
