@@ -2,23 +2,14 @@
 vagrantfile-local:
     vm:
         box:  puppetlabs/centos-6.5-32-puppet
-        box_url:  'file:////STORAGE/ImasD/Vagrant-boxes/centos-6.5-32-puppet.box'
+        box_url: file:////STORAGE/ImasD/Vagrant-boxes/centos-6.5-32-puppet.box
         hostname: 'project-name-box'
         memory: '2048'
         cpus: '2'
         chosen_provider: virtualbox
         network:
-            private_network: 10.1.2.14
-            forwarded_port:
-                GCwq75YOagGA:
-                    host: '8080'
-                    guest: '80'
-                prqzbTyj9oXb:
-                    host: '8983'
-                    guest: '8983'
-                tTycU7LwmTIa:
-                    host: '13000'
-                    guest: '13000'
+            private_network: 10.1.2.15
+            forwarded_port: { }
         post_up_message: ''
         provider:
             virtualbox:
@@ -39,7 +30,7 @@ vagrantfile-local:
                     - '--verbose'
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
                     - '--parser future'
-        synced_folder: {  }
+        synced_folder: { }
         usable_port_range:
             start: 10200
             stop: 10500
@@ -61,6 +52,7 @@ server:
         - vim-common
         - libcurl-devel
         - libxml2-devel
+        - dos2unix
 symlinks:
     "/var/www/html/local.project-name.db": "/vagrant"
 users_groups:
@@ -76,10 +68,10 @@ firewall:
         lqRTzFc5J5U0:
             port:
                 - '5432'
-                - '8983'
                 - '5672'
-                - '11300'
                 - '6379'
+                - '8983'
+                - '13000'
             priority: '100'
             proto: tcp
             action: accept
@@ -101,14 +93,10 @@ apache:
             servername: local.project-name.db
             docroot: /var/www/html/local.project-name.db/public
             port: '80'
+            additional_includes:
+                - conf/laravel-rewrites.conf
             setenv:
                 - 'APP_ENV local'
-            rewrites:
-                - rewrite_rule: '^(.+[^/])/$ $1 [R=301,L]'
-                - rewrite_cond:
-                    - '%{DOCUMENT_ROOT}%{REQUEST_URI} !-d'
-                    - '%{DOCUMENT_ROOT}%{REQUEST_URI} !-f'
-                  rewrite_rule: '. /index.php [L]'
             directories:
                 sl0kwnbspk8a:
                     provider: directory
@@ -164,17 +152,18 @@ php:
     composer_home: ''
     modules:
         php:
-            - common
-            - mbstring
-            - mcrypt
-            - gd
             - cli
             - intl
-            - memcached
+            - mcrypt
+            - common
+            - gd
+            - mbstring
+            - opcache
         pear: {  }
         pecl:
             - pecl_http
             - solr
+            - memcached
             - PDO
             - PDO_MYSQL
             - PDO_PGSQL
@@ -234,7 +223,8 @@ nodejs:
         - grunt-cli
 python:
     install: '1'
-    packages: {  }
+    packages:
+        - meld3
     versions:
         m5AoYImplVIM:
             version: ''
@@ -256,7 +246,7 @@ postgresql:
     install: '1'
     settings:
         listen_addresses: '*'
-        root_password: '1234'
+        root_password: 'postgres'
         user_group: postgres
         encoding: UTF8
         version: '9.4'
@@ -306,10 +296,10 @@ mailcatcher:
         mailcatcher_path: /usr/local/rvm/wrappers/default
         from_email_method: inline
 beanstalkd:
-    install: '1'
+    install: '0'
     settings:
         listenaddress: 0.0.0.0
-        listenport: '11300'
+        listenport: '13000'
         maxjobsize: '65535'
         maxconnections: '1024'
         binlogdir: /var/lib/beanstalkd/binlog

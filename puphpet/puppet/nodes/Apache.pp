@@ -95,6 +95,16 @@ if hash_key_equals($apache_values, 'install', 1) {
 
   create_resources('class', { 'apache' => $apache_settings })
 
+  # copy conf files to apache's conf directory
+  exec { 'copy_apache_conf_files':
+    cwd     => '/vagrant',
+    command => "cp -r /vagrant/puphpet/files/confs/apache/*.conf /etc/httpd/conf/",
+    onlyif  => 'test -d /vagrant/puphpet/files/confs/apache',
+    returns => [0, 1],
+    require => Class['apache'],
+    notify  => Service['httpd'],
+  }
+
   if $require_mod_php and ! defined(Class['apache::mod::php']) {
     include apache::mod::php
   } elsif ! $require_mod_php {

@@ -73,7 +73,7 @@ if hash_key_equals($postgresql_values, 'install', 1) {
 
     class { 'puphpet::adminer':
       location    => "${postgresql_adminer_webroot_location}/adminer",
-      owner       => 'www-data',
+      owner       => 'vagrant',
       php_package => $postgresql_php_package
     }
   }
