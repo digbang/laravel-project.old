@@ -20,11 +20,11 @@ return [
 		'Backoffice' => [
 			'Backoffice users' => [
 				'icon'   => 'user',
-				'action' => Digbang\L4Backoffice\Auth\UserController::class . '@index'
+				'action' => Digbang\L4Backoffice\Auth\Controllers\UserController::class . '@index'
 			],
 			'Backoffice groups' => [
 				'icon'   => 'group',
-				'action' => Digbang\L4Backoffice\Auth\GroupController::class . '@index'
+				'action' => Digbang\L4Backoffice\Auth\Controllers\GroupController::class . '@index'
 			]
 		]
 	]

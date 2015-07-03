@@ -1,29 +1,32 @@
 <?php
-$namespace = "App\\DataSources\\Mappings";
-
-$entities = [];
-$embeddables = [];
-
-foreach ((new DirectoryIterator(base_path('src/DataSources/Mappings/Entities'))) as $fileInfo)
-{
-	/** @type $fileInfo DirectoryIterator */
-	if ($fileInfo->getExtension() == 'php')
-	{
-		$entities[] = "$namespace\\Entities\\" . $fileInfo->getBasename('.php');
-	}
-}
-
-foreach ((new DirectoryIterator(base_path('src/DataSources/Mappings/Embeddables'))) as $fileInfo)
-{
-	/** @type $fileInfo DirectoryIterator */
-	if ($fileInfo->getExtension() == 'php')
-	{
-		/** @type $fileInfo SplFileInfo */
-		$embeddables[] = "$namespace\\Embeddables\\" . $fileInfo->getBasename('.php');
-	}
-}
+/**
+ * Mapping configuration
+ *
+ * Here you will map your entities and embbedables.
+ * Autoloading will be used, and the EntityMapping class
+ * will be instantiated through the IoC container, so you
+ * can depend on anything the IoC container could resolve.
+ */
 return [
-	'entities'    => $entities,
-	'embeddables' => $embeddables
+	'entities' => [
+		/**
+		 * Array of entity mapping classes.
+		 *
+		 * Example:
+		 *
+		 * App\DataSources\Mappings\UserMapping::class,
+		 * App\DataSources\Mappings\FooMapping::class,
+		 */
+	],
+	'embeddables' => [
+		/**
+		 * Array of embeddable (value object) mapping classes.
+		 *
+		 * Example:
+		 *
+		 * App\DataSources\Mappings\EmailMapping::class,
+		 * App\DataSources\Mappings\DateIntervalMapping::class,
+		 */
+	]
 ];
  

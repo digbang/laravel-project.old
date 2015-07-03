@@ -11,6 +11,8 @@ return [
 	 * The repository class will be made as {$namespace}\{$className}Repository{$suffix}
 	 * For instance, a Place entity, given a Foo\Repositories namespace with Interface as suffix
 	 * would look for a Foo\Repositories\PlaceRepositoryInterface class.
+	 *
+	 * If using concrete classes, leave this empty
 	 */
-	'suffix' => '',
+	'suffix' => 'Interface',
 ];
