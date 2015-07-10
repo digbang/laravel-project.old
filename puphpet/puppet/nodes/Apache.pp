@@ -152,7 +152,7 @@ if hash_key_equals($apache_values, 'install', 1) {
         creates => $vhost['docroot'],
       }
 
-      if ! defined(File[$vhost['docroot']]) {
+      if ! defined(File[$vhost['docroot']]) and !$yaml_values['symlinks'][$vhost['docroot']] {
         file { $vhost['docroot']:
           ensure  => directory,
           group   => $vhost_docroot_group,

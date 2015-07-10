@@ -223,8 +223,7 @@ nodejs:
         - grunt-cli
 python:
     install: '1'
-    packages:
-        - meld3
+    packages: { }
     versions:
         m5AoYImplVIM:
             version: ''
@@ -317,7 +316,7 @@ elastic_search:
         version: 1.4.1
         java_install: true
 solr:
-    install: '1'
+    install: '0'
     settings:
         version: 4.10.2
         port: '8983'
