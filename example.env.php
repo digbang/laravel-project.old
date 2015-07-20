@@ -14,6 +14,10 @@ return [
 	'DB_PASSWORD' => 'project-name',
 	'DB_SCHEMA'   => 'public',
 
+	// Redis configuration
+	'REDIS_HOST' => 'localhost',
+	'REDIS_PORT' => 6379,
+
 	// SMTP configuration
 	'SMTP_HOST'                => 'tcp://smtp.intranet.db',
 	'SMTP_PORT'                => 25,

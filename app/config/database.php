@@ -87,8 +87,8 @@ return array(
 		'cluster' => false,
 
 		'default' => array(
-			'host'     => 'localhost',
-			'port'     => 6379,
+			'host'     => array_get($_ENV, 'REDIS_HOST', 'localhost'),
+			'port'     => array_get($_ENV, 'REDIS_PORT', 6379),
 			'database' => 0,
 		),
 
