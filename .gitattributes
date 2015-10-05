@@ -1,8 +1,4 @@
-* text eol=lf
-
-# Denote all files that are truly binary and should not be modified.
-*.dm2 binary
-*.png binary
-*.jpg binary
-*.jpeg binary
-*.gif binary
+* text=auto
+*.css linguist-vendored
+*.less linguist-vendored
+puphpet export-ignore
