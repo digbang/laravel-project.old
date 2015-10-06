@@ -11,9 +11,9 @@
         "php": ">=5.6",
         "laravel/framework": "5.1.*",
         "digbang/events": "^1.0",
-        "digbang/doctrine": "dev-master",
-        "digbang/security": "dev-sentinel",
-        "digbang/backoffice": "dev-master",
+        "digbang/doctrine": "^3.0",
+        "digbang/security": "^3.0",
+        "digbang/backoffice": "^3.0",
         "LaravelBA/route-binder": "^4.0"
     },
     "require-dev": {
@@ -67,10 +67,11 @@
         "preferred-install": "dist"
     },
     "repositories" : [
-        { "url": "git@github.com:digbang/backoffice.git",   "type": "vcs" },
-        { "url": "git@github.com:digbang/security.git",     "type": "vcs" },
-        { "url": "git@github.com:digbang/doctrine.git",     "type": "vcs" },
-        { "url": "git@github.com:digbang/events.git",       "type": "vcs" }
+        { "url": "git@github.com:digbang/backoffice.git", "type": "vcs" },
+        { "url": "git@github.com:digbang/security.git",   "type": "vcs" },
+        { "url": "git@github.com:digbang/doctrine.git",   "type": "vcs" },
+        { "url": "git@github.com:digbang/events.git",     "type": "vcs" },
+        { "url": "git@github.com:digbang/assets.git",     "type": "vcs" }
     ],
     "suggest": {
         "intervention/image":          "PHP image handling and manipulation library.",
