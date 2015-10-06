@@ -9,7 +9,7 @@ use Digbang\Security\Users\User;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Console\Command;
 
-class RoleAddPermissionCommand extends Command
+class RolePermissionAddCommand extends Command
 {
     /**
      * The name and signature of the console command.

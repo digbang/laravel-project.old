@@ -12,11 +12,11 @@ class Kernel extends ConsoleKernel
      * @var string[] All available app command names.
      */
     protected $commands = [
-        Commands\Backoffice\AddUserCommand::class,
-        Commands\Backoffice\AddRoleCommand::class,
-        Commands\Backoffice\UserAddPermissionCommand::class,
-        Commands\Backoffice\UserAddRoleCommand::class,
-        Commands\Backoffice\RoleAddPermissionCommand::class,
+        Commands\Backoffice\UserAddCommand::class,
+        Commands\Backoffice\UserRoleAddCommand::class,
+        Commands\Backoffice\UserPermissionAddCommand::class,
+        Commands\Backoffice\RoleAddCommand::class,
+        Commands\Backoffice\RolePermissionAddCommand::class,
     ];
 
     /**

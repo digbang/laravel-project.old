@@ -4,7 +4,7 @@ namespace App\Console\Commands\Backoffice;
 use Digbang\Security\SecurityContext;
 use Illuminate\Console\Command;
 
-class AddUserCommand extends Command
+class UserAddCommand extends Command
 {
     /**
      * The name and signature of the console command.
