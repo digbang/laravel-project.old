@@ -445,7 +445,7 @@ class UserController extends Controller
 
 			$rolePermissions[$role->getRoleSlug()] = $role->getPermissions()->map(function(Permission $permission) {
 				return $permission->getName();
-			});
+			})->toArray();
 		}
 
 		$inputs->dropdown(
@@ -453,7 +453,6 @@ class UserController extends Controller
 			trans('backoffice::auth.roles'),
 			$options,
 			[
-				'placeholder'      => trans('backoffice::auth.roles'),
 				'multiple'         => 'multiple',
 				'class'            => 'user-groups form-control',
 				'data-permissions' => json_encode($rolePermissions)

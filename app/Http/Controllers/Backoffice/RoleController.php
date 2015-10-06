@@ -143,23 +143,38 @@ class RoleController extends Controller
             ),
         ];
 
-        $actions = $this->backoffice()->actions()
-            ->link(
-                $this->security()->url()->route(RoleRoutes::EDIT, $role->getRoleSlug()),
-                FontAwesome::icon('edit') . ' ' . trans('backoffice::default.edit'),
-                ['class' => 'btn btn-success']
-            )
-            ->link(
+
+        $actions = $this->backoffice()->actions();
+
+	    try
+	    {
+		    $actions->link(
+			    $this->security()->url()->route(RoleRoutes::EDIT, $role->getRoleSlug()),
+			    FontAwesome::icon('edit') . ' ' . trans('backoffice::default.edit'),
+			    ['class' => 'btn btn-success']
+		    );
+	    }
+		catch (SecurityException $e){ }
+
+	    try {
+            $actions->link(
                 $this->security()->url()->route(RoleRoutes::INDEX),
                 trans('backoffice::default.back'),
                 ['class' => 'btn btn-default']
             );
+	    }
+	    catch (SecurityException $e){ }
 
-        $topActions = $this->backoffice()->actions()
-            ->link(
-                $this->security()->url()->route(RoleRoutes::INDEX),
-                FontAwesome::icon('arrow-left') . ' ' . trans('backoffice::default.back')
-            );
+        $topActions = $this->backoffice()->actions();
+
+	    try
+	    {
+		    $topActions->link(
+			    $this->security()->url()->route(RoleRoutes::INDEX),
+			    FontAwesome::icon('arrow-left') . ' ' . trans('backoffice::default.back')
+		    );
+	    }
+	    catch (SecurityException $e){ }
 
         return $this->view()->make('backoffice::show', [
             'title'      => $this->titlePlural,
@@ -180,11 +195,13 @@ class RoleController extends Controller
             $this->security()->url()->route(RoleRoutes::SHOW, $role->getRoleSlug())
         );
 
+	    $permissions = $role->getPermissions()->map(function(Permission $permission){
+		    return $permission->getName();
+	    })->toArray();
+
         $form->fill([
-            'name'        => $role->getName(),
-            'permissions' => $role->getPermissions()->map(function(Permission $permission){
-                return $permission->getName();
-            }),
+	        'name'          => $role->getName(),
+	        'permissions[]' => $permissions,
         ]);
 
         $breadcrumb = $this->backoffice()->breadcrumb([
@@ -209,12 +226,7 @@ class RoleController extends Controller
 
             if ($role instanceof Permissible)
             {
-                $role->clearPermissions();
-
-                foreach ($request->get('permissions') as $permission)
-                {
-                    $role->addPermission($permission);
-                }
+                $role->syncPermissions($request->get('permissions'));
             }
 
             $this->security()->roles()->save($role);
@@ -350,19 +362,29 @@ class RoleController extends Controller
 
     protected function buildListActions(Listing $list, Request $request)
     {
-        $list->setActions(
-            $this->backoffice()->actions()
-                ->link(
-                    $this->security()->url()->route(RoleRoutes::CREATE),
-                    FontAwesome::icon('plus') . ' ' . trans('backoffice::default.new', ['model' => $this->title]),
-                    ['class' => 'btn btn-primary']
-                )
-                ->link(
-                    $this->security()->url()->route(RoleRoutes::EXPORT, $request->all()),
-                    FontAwesome::icon('file-excel-o') . ' ' . trans('backoffice::default.export'),
-                    ['class' => 'btn btn-success']
-                )
-        );
+	    $actions = $this->backoffice()->actions();
+
+	    try
+	    {
+		    $actions->link(
+			    $this->security()->url()->route(RoleRoutes::CREATE),
+			    FontAwesome::icon('plus') . ' ' . trans('backoffice::default.new', ['model' => $this->title]),
+			    ['class' => 'btn btn-primary']
+		    );
+	    }
+	    catch (SecurityException $e){}
+
+	    try
+	    {
+			$actions->link(
+			    $this->security()->url()->route(RoleRoutes::EXPORT, $request->all()),
+			    FontAwesome::icon('file-excel-o') . ' ' . trans('backoffice::default.export'),
+			    ['class' => 'btn btn-success']
+		    );
+	    }
+		catch (SecurityException $e){}
+
+        $list->setActions($actions);
 
         $list->setRowActions(
             $this->backoffice()->actions()
