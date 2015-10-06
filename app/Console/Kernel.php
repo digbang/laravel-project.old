@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\Backoffice\AddRoleCommand::class,
         Commands\Backoffice\UserAddPermissionCommand::class,
         Commands\Backoffice\UserAddRoleCommand::class,
+        Commands\Backoffice\RoleAddPermissionCommand::class,
     ];
 
     /**
