@@ -48,7 +48,7 @@ class UserRoutes implements RouteBinder
 
 		$router->group(['prefix' => "backoffice/$prefix", 'middleware' => 'security:backoffice'], function(Registrar $router) {
 			$router->get("export",                    ['as' => static::EXPORT,  "uses" => UserController::class . '@export',  "permission" => 'backoffice.users.list']);
-			$router->get("/",                         ["as" => static::INDEX,   "uses" => UserController::class . '@index',   "permission" => 'backoffice.users.list', "persistent" => true]);
+			$router->get("/",                         ["as" => static::INDEX,   "uses" => UserController::class . '@index',   "permission" => 'backoffice.users.list', "middleware" => "persistent"]);
 			$router->get("create",                    ["as" => static::CREATE,  "uses" => UserController::class . '@create',  "permission" => 'backoffice.users.create']);
 			$router->post("/",                        ["as" => static::STORE,   "uses" => UserController::class . '@store',   "permission" => 'backoffice.users.create']);
 			$router->get("{backoffice_username}",      ["as" => static::SHOW,    "uses" => UserController::class . '@show',    "permission" => 'backoffice.users.read']);

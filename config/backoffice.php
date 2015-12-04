@@ -74,7 +74,7 @@ return [
 	'gen' => [
 		'controllers_dir'       => base_path('app/Http/Controllers/Backoffice'),
 		'controllers_namespace' => 'App\Http\Controllers\Backoffice',
-		'apis_path'             => base_path('app/Contracts/Apis')
+		'apis_path'             => base_path('src/Apis')
 	],
 	'emails' => [
 		'address' => 'backoffice@digbang.com',

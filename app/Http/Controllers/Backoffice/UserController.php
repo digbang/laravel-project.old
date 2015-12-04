@@ -95,10 +95,10 @@ class UserController extends Controller
 		$label = trans('backoffice::default.new', ['model' => $this->title]);
 
 		$form = $this->buildForm(
-			$this->security()->url()->route(UserRoutes::STORE),
+			$this->url()->route(UserRoutes::STORE),
 			$label,
 			'POST',
-			$this->security()->url()->route(UserRoutes::INDEX)
+			$this->url()->route(UserRoutes::INDEX)
 		);
 
 		$breadcrumb = $this->backoffice()->breadcrumb([
@@ -165,7 +165,7 @@ class UserController extends Controller
 				);
 			}
 
-			return $this->redirect()->to($this->security()->url()->route(UserRoutes::SHOW, $user->getUsername()));
+			return $this->redirect()->to($this->url()->route(UserRoutes::SHOW, $user->getUsername()));
 		}
 		catch (ValidationException $e)
 		{
@@ -173,7 +173,7 @@ class UserController extends Controller
 		}
 		catch (SecurityException $e)
 		{
-			return $this->redirect()->to($this->security()->url()->route('backoffice.index'));
+			return $this->redirect()->to($this->url()->route('backoffice.index'));
 		}
 	}
 
@@ -213,16 +213,16 @@ class UserController extends Controller
 		// Actions with security concerns
 		$actions = $this->backoffice()->actions();
 		try {
-			$actions->link($this->security()->url()->route(UserRoutes::EDIT, $user->getUsername()), FontAwesome::icon('edit') . ' ' . trans('backoffice::default.edit'), ['class' => 'btn btn-success']);
+			$actions->link($this->url()->route(UserRoutes::EDIT, $user->getUsername()), FontAwesome::icon('edit') . ' ' . trans('backoffice::default.edit'), ['class' => 'btn btn-success']);
 		} catch (SecurityException $e) { /* Do nothing */ }
 		try {
-			$actions->link($this->security()->url()->route(UserRoutes::INDEX), trans('backoffice::default.back'), ['class' => 'btn btn-default']);
+			$actions->link($this->url()->route(UserRoutes::INDEX), trans('backoffice::default.back'), ['class' => 'btn btn-default']);
 		} catch (SecurityException $e) { /* Do nothing */ }
 
 		$topActions = $this->backoffice()->actions();
 
 		try {
-			$topActions->link($this->security()->url()->route(UserRoutes::INDEX), FontAwesome::icon('arrow-left') . ' ' . trans('backoffice::default.back'));
+			$topActions->link($this->url()->route(UserRoutes::INDEX), FontAwesome::icon('arrow-left') . ' ' . trans('backoffice::default.back'));
 		} catch (SecurityException $e) { /* Do nothing */ }
 
 		return $this->view()->make('backoffice::show', [
@@ -241,10 +241,10 @@ class UserController extends Controller
 	public function edit(User $user)
 	{
 		$form = $this->buildForm(
-			$this->security()->url()->route(UserRoutes::UPDATE, $user->getUsername()),
+			$this->url()->route(UserRoutes::UPDATE, $user->getUsername()),
 			trans('backoffice::default.edit') . ' ' . trans('backoffice::auth.user_name', ['name' => $user->getName()->getFirstName(),'lastname' => $user->getName()->getLastName()]),
 			'PUT',
-			$this->security()->url()->route(UserRoutes::SHOW, $user->getUsername()),
+			$this->url()->route(UserRoutes::SHOW, $user->getUsername()),
 			[],
 			$user
 		);
@@ -334,7 +334,7 @@ class UserController extends Controller
 
 			$this->security()->users()->update($user, $inputData);
 
-			return $this->redirect()->to($this->security()->url()->route(UserRoutes::SHOW, [$user->getUsername()]));
+			return $this->redirect()->to($this->url()->route(UserRoutes::SHOW, [$user->getUsername()]));
 		}
 		catch (ValidationException $e)
 		{
@@ -342,7 +342,7 @@ class UserController extends Controller
 		}
 		catch (SecurityException $e)
 		{
-			return $this->redirect()->to($this->security()->url()->route('backoffice.index'));
+			return $this->redirect()->to($this->url()->route('backoffice.index'));
 		}
 	}
 
@@ -353,7 +353,7 @@ class UserController extends Controller
 			$this->security()->users()->destroy($user);
 
 			// Redirect to the listing
-			return $this->redirect()->to($this->security()->url()->route(UserRoutes::INDEX))->withSuccess(
+			return $this->redirect()->to($this->url()->route(UserRoutes::INDEX))->withSuccess(
 				trans('backoffice::default.delete_msg', ['model' => $this->title, 'id' => $user->getEmail()])
 			);
 		}
@@ -363,7 +363,7 @@ class UserController extends Controller
 		}
 		catch(SecurityException $e)
 		{
-			return $this->redirect()->to($this->security()->url()->route('backoffice.index'))->withDanger(
+			return $this->redirect()->to($this->url()->route('backoffice.index'))->withDanger(
 				trans('backoffice::auth.permission_error')
 			);
 		}
@@ -529,10 +529,10 @@ class UserController extends Controller
 		$actions = $this->backoffice()->actions();
 
 		try {
-			$actions->link($this->security()->url()->route(UserRoutes::CREATE), FontAwesome::icon('plus') . ' ' . trans('backoffice::default.new', ['model' => $this->title]), ['class' => 'btn btn-primary']);
+			$actions->link($this->url()->route(UserRoutes::CREATE), FontAwesome::icon('plus') . ' ' . trans('backoffice::default.new', ['model' => $this->title]), ['class' => 'btn btn-primary']);
 		} catch (SecurityException $e) { /* Do nothing */}
 		try {
-			$actions->link($this->security()->url()->route(UserRoutes::EXPORT, $request->all()), FontAwesome::icon('file-excel-o') . ' ' . trans('backoffice::default.export'), ['class' => 'btn btn-success']);
+			$actions->link($this->url()->route(UserRoutes::EXPORT, $request->all()), FontAwesome::icon('file-excel-o') . ' ' . trans('backoffice::default.export'), ['class' => 'btn btn-success']);
 		} catch (SecurityException $e) { /* Do nothing */}
 
 		$list->setActions($actions);
@@ -542,20 +542,20 @@ class UserController extends Controller
 		// View icon
 		$rowActions->link(function(Collection $row) {
 			try {
-				return $this->security()->url()->route(UserRoutes::SHOW, $row['username']);
+				return $this->url()->route(UserRoutes::SHOW, $row['username']);
 			} catch (SecurityException $e) { return false; }
 		}, FontAwesome::icon('eye'), ['data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => trans('backoffice::default.show')]);
 
 		// Edit icon
 		$rowActions->link(function(Collection $row) {
-			try { return $this->security()->url()->route(UserRoutes::EDIT, $row['username']); }
+			try { return $this->url()->route(UserRoutes::EDIT, $row['username']); }
 			catch (SecurityException $e) { return false; }
 		}, FontAwesome::icon('edit'), ['class' => 'text-success', 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'title' => trans('backoffice::default.edit')]);
 
 		// Delete icon
 		$rowActions->form(
 			function(Collection $row) {
-				try { return $this->security()->url()->route(UserRoutes::DESTROY, $row['username']); }
+				try { return $this->url()->route(UserRoutes::DESTROY, $row['username']); }
 				catch (SecurityException $e) { return false; }
 			},
 			FontAwesome::icon('times'),
@@ -571,7 +571,7 @@ class UserController extends Controller
 
 		$rowActions->form(
 			function(Collection $row) {
-				try { return $this->security()->url()->route(UserRoutes::RESET_PASSWORD, $row['username']); }
+				try { return $this->url()->route(UserRoutes::RESET_PASSWORD, $row['username']); }
 				catch (SecurityException $e) { return false; }
 			},
 			FontAwesome::icon('unlock-alt'),
@@ -589,7 +589,7 @@ class UserController extends Controller
 			function(Collection $row) {
 				if ($row['activated']) return false;
 				try {
-					return $this->security()->url()->route(UserRoutes::RESEND_ACTIVATION, $row['username']);
+					return $this->url()->route(UserRoutes::RESEND_ACTIVATION, $row['username']);
 				} catch (SecurityException $e) { return false; }
 			},
 			FontAwesome::icon('reply-all'),
