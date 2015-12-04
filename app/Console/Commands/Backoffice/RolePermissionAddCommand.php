@@ -1,11 +1,9 @@
 <?php
-
 namespace App\Console\Commands\Backoffice;
 
 use Digbang\Security\Permissions\Permissible;
 use Digbang\Security\Roles\Role;
 use Digbang\Security\SecurityContext;
-use Digbang\Security\Users\User;
 use Doctrine\ORM\EntityManager;
 use Illuminate\Console\Command;
 
@@ -16,7 +14,7 @@ class RolePermissionAddCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'backoffice:roles:permissions:add {role} {permission}';
+    protected $signature = 'backoffice:roles:permissions:add {role : The role slug} {permissions : A comma-separated list of permissions}';
 
     /**
      * The console command description.
@@ -36,28 +34,31 @@ class RolePermissionAddCommand extends Command
         $security = $securityContext->getSecurity('backoffice');
 
         $roleSlug = $this->argument('role');
-        $permission = $this->argument('permission');
+        $permissions = $this->argument('permissions');
 
-        /** @type Role|Permissible $role */
+        /** @var Role|Permissible $role */
         $role = $security->roles()->findOneBy(['slug' => $roleSlug]);
 
-        if (! $role)
+        if (!$role)
         {
             $this->error("Role [$roleSlug] does not exist.");
             exit(1);
         }
 
-        if (! $role instanceof Permissible)
+        if (!$role instanceof Permissible)
         {
-            $this->error("The configured Role class needs to extend " . Permissible::class .
-                " to use permissions."
+            $this->error('The configured Role class needs to extend ' . Permissible::class .
+                ' to use permissions.'
             );
             exit(2);
         }
 
-        $role->addPermission($permission);
-        $entityManager->flush($role);
+        foreach (explode(',', $permissions) as $permission)
+        {
+            $role->addPermission($permission);
+            $this->info("Permission [$permission] added to role [$roleSlug].");
+        }
 
-        $this->info("Permission [$permission] added to role [$roleSlug].");
+        $entityManager->flush($role);
     }
 }

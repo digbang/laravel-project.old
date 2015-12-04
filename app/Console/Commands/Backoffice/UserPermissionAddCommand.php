@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Console\Commands\Backoffice;
 
 use Digbang\Security\Permissions\Permissible;
@@ -15,7 +14,7 @@ class UserPermissionAddCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'backoffice:users:permissions:add {username} {permission}';
+    protected $signature = 'backoffice:users:permissions:add {username : The username of the user} {permissions : A comma-separated list of permissions}';
 
     /**
      * The console command description.
@@ -35,28 +34,31 @@ class UserPermissionAddCommand extends Command
         $security = $securityContext->getSecurity('backoffice');
 
         $username = $this->argument('username');
-        $permission = $this->argument('permission');
+        $permissions = $this->argument('permissions');
 
-        /** @type User|Permissible $user */
+        /** @var User|Permissible $user */
         $user = $security->users()->findOneBy(['username' => $username]);
 
-        if (! $user)
+        if (!$user)
         {
             $this->error("Username [$username] does not exist.");
             exit(1);
         }
 
-        if (! $user instanceof Permissible)
+        if (!$user instanceof Permissible)
         {
-            $this->error("The configured User class needs to extend " . Permissible::class .
-                " to use permissions."
+            $this->error('The configured User class needs to extend ' . Permissible::class .
+                ' to use permissions.'
             );
             exit(2);
         }
 
-        $user->addPermission($permission);
-        $entityManager->flush($user);
+        foreach (explode(',', $permissions) as $permission)
+        {
+            $user->addPermission($permission);
+            $this->info("Permission [$permission] added to user [$username].");
+        }
 
-        $this->info("Permission [$permission] added to user [$username].");
+        $entityManager->flush($user);
     }
 }
