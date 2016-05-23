@@ -120,9 +120,11 @@ class UserController extends Controller
 			'firstName',
 			'lastName',
 			'email',
-            'password',
-            'activated',
-			'username'
+            		'password',
+            		'activated',
+			'username',
+			'roles',
+			'permissions',
         ]);
 
 		try
@@ -136,7 +138,11 @@ class UserController extends Controller
 					/** @type Roleable $user */
 					foreach ($input['roles'] as $role)
 					{
-						$user->addRole($role);
+						/** @var Role $role */
+			                        if($role = $this->security()->roles()->findBySlug($role))
+			                        {
+			                            $user->addRole($role);
+			                        }
 					}
 				}
 
