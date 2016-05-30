@@ -55,6 +55,7 @@ return [
         'mysql' => [
             'driver'    => 'mysql',
             'host'      => env('DB_HOST', 'localhost'),
+            'port'      => env('DB_PORT', '3306'),
             'database'  => env('DB_DATABASE', 'project-name'),
             'username'  => env('DB_USERNAME', 'project-name'),
             'password'  => env('DB_PASSWORD', 'project-name'),
@@ -62,11 +63,13 @@ return [
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
             'strict'    => false,
+            'engine'    => null,
         ],
 
         'pgsql' => [
             'driver'   => 'pgsql',
             'host'     => env('DB_HOST', 'localhost'),
+            'port'     => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'project-name'),
             'username' => env('DB_USERNAME', 'project-name'),
             'password' => env('DB_PASSWORD', 'project-name'),
@@ -75,17 +78,6 @@ return [
             'schema'   => 'public',
             'server_version' => env('DB_VERSION', '9.3.9')
         ],
-
-        'sqlsrv' => [
-            'driver'   => 'sqlsrv',
-            'host'     => env('DB_HOST', 'localhost'),
-            'database' => env('DB_DATABASE', 'project-name'),
-            'username' => env('DB_USERNAME', 'project-name'),
-            'password' => env('DB_PASSWORD', 'project-name'),
-            'charset'  => 'utf8',
-            'prefix'   => '',
-        ],
-
     ],
 
     /*
@@ -117,8 +109,9 @@ return [
         'cluster' => false,
 
         'default' => [
-            'host'     => '127.0.0.1',
-            'port'     => 6379,
+            'host'     => env('REDIS_HOST', 'localhost'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port'     => env('REDIS_PORT', 6379),
             'database' => 0,
         ],
 
