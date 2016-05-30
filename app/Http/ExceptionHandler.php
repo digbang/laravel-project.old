@@ -29,7 +29,7 @@ class ExceptionHandler extends Handler
      */
     public function report(Exception $e)
     {
-        return parent::report($e);
+        parent::report($e);
     }
 
     /**
@@ -41,43 +41,28 @@ class ExceptionHandler extends Handler
      */
     public function render($request, Exception $e)
     {
-        if ($this->isHttpException($e))
-        {
-            return $this->renderHttpException($e);
-        }
-
-        if (config('app.debug'))
-        {
-            return $this->renderExceptionWithWhoops($request, $e);
-        }
-
         return parent::render($request, $e);
     }
 
     /**
-     * Render an exception using Whoops.
+     * Create a Symfony response for the given exception.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Exception $e
-     * @return Response
+     * @param  \Exception  $e
+     * @return mixed
      */
-    protected function renderExceptionWithWhoops($request, Exception $e)
+    protected function convertExceptionToResponse(Exception $e)
     {
-        $whoops = new \Whoops\Run;
+        if (config('app.debug')) {
+            $whoops = new \Whoops\Run;
+            $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 
-	    if ($request->ajax())
-	    {
-		    $whoops->pushHandler(new \Whoops\Handler\JsonResponseHandler());
-	    }
-	    else
-	    {
-		    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
-	    }
+            return response()->make(
+                $whoops->handleException($e),
+                method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500,
+                method_exists($e, 'getHeaders') ? $e->getHeaders() : []
+            );
+        }
 
-        return new Response(
-            $whoops->handleException($e),
-            $e->getStatusCode(),
-            $e->getHeaders()
-        );
+        return parent::convertExceptionToResponse($e);
     }
 }
