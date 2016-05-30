@@ -1,6 +1,6 @@
 {
-    "name": "client-name/project-name",
-    "description": "Project Description",
+    "name": "digbang/laravel-project",
+    "description": "Digbang's Skeleton of a new Laravel project.",
     "keywords": [
         "digbang",
         "project"
