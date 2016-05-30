@@ -15,7 +15,8 @@
         "digbang/events": "^1.0",
         "digbang/security": "^4.0",
         "digbang/backoffice": "^4.0",
-        "LaravelBA/route-binder": "^4.0"
+        "LaravelBA/route-binder": "^4.0",
+        "beberlei/assert": "^2.4"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
