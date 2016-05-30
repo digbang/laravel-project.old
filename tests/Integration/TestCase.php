@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Application;
+namespace Tests\Integration;
 
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\TestCase as LaravelTestCase;
