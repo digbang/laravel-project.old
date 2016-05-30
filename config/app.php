@@ -149,6 +149,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Digbang\Backoffice\BackofficeServiceProvider::class,
+        LaravelDoctrine\ORM\DoctrineServiceProvider::class,
         
         /*
          * Application Service Providers...
