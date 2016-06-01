@@ -46,7 +46,7 @@ class RoleRoutes implements RouteBinder
 	{
 		$prefix = $this->config->get('backoffice.auth.groups_url', 'backoffice-roles');
 
-		$router->group(['prefix' => "backoffice/$prefix", 'middleware' => 'security:backoffice'], function() use ($router) {
+		$router->group(['prefix' => "backoffice/$prefix", 'middleware' => ['web', 'security:backoffice']], function() use ($router) {
 			$router->get("export",                      ['as' => static::EXPORT,  "uses" => RoleController::class . '@export',  "permission" => 'backoffice.roles.list']);
 			$router->get("/",                           ["as" => static::INDEX,   "uses" => RoleController::class . '@index',   "permission" => 'backoffice.roles.list', "persistent" => true]);
 			$router->get("create",                      ["as" => static::CREATE,  "uses" => RoleController::class . '@create',  "permission" => 'backoffice.roles.create']);

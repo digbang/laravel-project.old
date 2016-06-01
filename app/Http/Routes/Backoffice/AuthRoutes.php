@@ -56,7 +56,7 @@ class AuthRoutes implements RouteBinder
 	public function addRoutes(Registrar $router)
 	{
 		$router->group(['prefix' => 'backoffice/auth'], function(Router $router){
-			$router->group(['middleware' => 'security:backoffice:public'], function(Router $router){
+			$router->group(['middleware' => ['web', 'security:backoffice:public']], function(Router $router){
 				$router->get('login',                                       ['as' => static::LOGIN,                   'uses' => AuthController::class . '@login']);
 				$router->get('password/forgot',                             ['as' => static::FORGOT_PASSWORD,         'uses' => AuthController::class . '@forgotPassword']);
 				$router->get('password/reset/{backoffice_user_id}/{code}',  ['as' => static::RESET_PASSWORD,          'uses' => AuthController::class . '@resetPassword']);
@@ -68,7 +68,7 @@ class AuthRoutes implements RouteBinder
 				$router->post('password/reset/{backoffice_user_id}/{code}', ['as' => static::ATTEMPT_RESET_PASSWORD,  'uses' => AuthController::class . '@resetPasswordRequest']);
 			});
 
-			$router->group(['middleware' => 'security:backoffice'], function(Router $router){
+			$router->group(['middleware' => ['web', 'security:backoffice']], function(Router $router){
 				$router->get('logout', ['as' => static::LOGOUT, 'uses' => AuthController::class . '@logout']);
 			});
 		});

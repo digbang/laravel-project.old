@@ -21,7 +21,7 @@ class DashboardRoutes implements RouteBinder
 	 */
 	public function addRoutes(Registrar $router)
 	{
-		$router->group(['prefix' => 'backoffice', 'middleware' => 'security:backoffice'], function(Registrar $router){
+		$router->group(['prefix' => 'backoffice', 'middleware' => ['web', 'security:backoffice']], function(Registrar $router){
 			$router->get('/', ['as' => self::HOME, 'uses' => DashboardController::class . '@dashboard']);
 		});
 	}
