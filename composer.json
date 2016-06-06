@@ -1,10 +1,7 @@
 {
     "name": "digbang/laravel-project",
     "description": "Digbang's Skeleton of a new Laravel project.",
-    "keywords": [
-        "digbang",
-        "project"
-    ],
+    "keywords": ["digbang", "project"],
     "license": "proprietary",
     "type": "project",
     "require": {
@@ -12,11 +9,13 @@
         "laravel/framework": "5.2.*",
         "laravel-doctrine/orm": "^1.1",
         "laravel-doctrine/fluent": "^1.1",
+        "laravel-doctrine/extensions": "^1.0",
         "digbang/events": "^1.0",
-        "digbang/security": "^4.0",
+        "digbang/security": "^4.1.5",
         "digbang/backoffice": "^4.0",
         "LaravelBA/route-binder": "^4.0",
-        "beberlei/assert": "^2.4"
+        "beberlei/assert": "^2.4",
+        "beberlei/DoctrineExtensions": "^1.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
@@ -80,7 +79,6 @@
         "LaravelBA/laravel-js-routes":  "Laravel Javascript Routes.",
         "dingo/api":                    "API development",
         "omnipay/omnipay":              "Payment gateway abstraction",
-        "gedmo/doctrine-extensions":    "Doctrine2 behavioral extensions",
-        "beberlei/DoctrineExtensions":  "Doctrine2 type extensions"
+        "gedmo/doctrine-extensions":    "Doctrine2 behavioral extensions"
     }
 }
