@@ -1,5 +1,5 @@
 class puphpet::php::composer (
-  $php_package   = 'php',
+  $php_package,
   $composer_home = false
 ){
 
@@ -13,13 +13,9 @@ class puphpet::php::composer (
   if $composer_home_real {
     file { $composer_home_real:
       ensure  => directory,
-      owner   => 'www-data',
-      group   => 'www-data',
-      mode    => 0775,
-      require => [
-        Group['www-data'],
-        Group['www-user']
-      ],
+      owner   => 'vagrant',
+      group   => 'vagrant',
+      mode    => '0775'
     }
 
     file_line { "COMPOSER_HOME=${composer_home_real}":
@@ -38,5 +34,4 @@ class puphpet::php::composer (
     curl_package    => 'curl',
     suhosin_enabled => false,
   }
-
 }
