@@ -336,7 +336,7 @@ class UserController extends Controller
 				'permissions'
 			]);
 
-			$inputData['activated'] = $request->get('activated') ?: false;
+			$inputData['activated'] = $request->input('activated') ?: false;
 
 			$this->security()->users()->update($user, $inputData);
 
@@ -637,7 +637,7 @@ class UserController extends Controller
 			$filters,
 			$this->getSorting($request),
             $limit,
-			($request->get('page', 1) - 1) * $limit
+			($request->input('page', 1) - 1) * $limit
 		);
 	}
 
@@ -685,8 +685,8 @@ class UserController extends Controller
 
 	private function getSorting(Request $request)
 	{
-		$sortBy    = $request->get('sort_by')    ?: 'firstName';
-		$sortSense = $request->get('sort_sense') ?: 'asc';
+		$sortBy    = $request->input('sort_by')    ?: 'firstName';
+		$sortSense = $request->input('sort_sense') ?: 'asc';
 
 		return [
 			$this->sortings[$sortBy] => $sortSense

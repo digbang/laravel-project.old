@@ -66,7 +66,7 @@ class AuthController extends Controller
 		{
 			$authenticated = $securityApi->authenticate(
 				$request->only(['email', 'username', 'login', 'password']),
-				$request->get('remember'));
+				$request->input('remember'));
 
 			if ($authenticated)
 			{
@@ -109,7 +109,7 @@ class AuthController extends Controller
 	 */
 	public function resendActivationRequest(ResendActivationRequest $request, SecurityApi $securityApi, BackofficeMailer $emailer)
 	{
-		$email = $request->get('email');
+		$email = $request->input('email');
 
 		/** @type User $user */
 		$user = $securityApi->users()->findByCredentials(['email' => $email]);
@@ -211,7 +211,7 @@ class AuthController extends Controller
 	 */
 	public function resetPasswordRequest($user, $resetCode, ResetPasswordRequest $request, SecurityApi $securityApi)
 	{
-		if ($user->getUserId() != $request->get('id'))
+		if ($user->getUserId() != $request->input('id'))
 		{
 			return $this->redirector->route(AuthRoutes::LOGIN);
 		}
@@ -220,7 +220,7 @@ class AuthController extends Controller
 
 		if ($reminders->exists($user, $resetCode))
 		{
-			$reminders->complete($user, $resetCode, $request->get('password'));
+			$reminders->complete($user, $resetCode, $request->input('password'));
 
 			return $this->redirector->route(AuthRoutes::LOGIN)->with(
 				'success', trans('backoffice::auth.reset-password.success', ['email' => $user->getEmail()])
@@ -250,7 +250,7 @@ class AuthController extends Controller
 	 */
 	public function forgotPasswordRequest(Request $request, SecurityApi $securityApi, BackofficeMailer $emailer)
 	{
-		$email = trim($request->get('email'));
+		$email = trim($request->input('email'));
 
 		/** @type \Digbang\Security\Users\User $user */
 		if (!$email || ! ($user = $securityApi->users()->findByCredentials(['email' => $email])))

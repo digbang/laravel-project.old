@@ -105,11 +105,11 @@ class RoleController extends Controller
             $roles = $this->security()->roles();
 
             /** @var Role|Permissible $role */
-            $role = $roles->create($request->get('name'), $request->get('slug') ?: null);
+            $role = $roles->create($request->input('name'), $request->input('slug') ?: null);
 
-            if ($request->get('permissions') && $role instanceof Permissible)
+            if ($request->input('permissions') && $role instanceof Permissible)
             {
-                foreach ((array) $request->get('permissions') as $permission)
+                foreach ((array) $request->input('permissions') as $permission)
                 {
                     $role->addPermission($permission);
                 }
@@ -222,11 +222,11 @@ class RoleController extends Controller
     {
         try
         {
-            $role->setName($request->get('name'));
+            $role->setName($request->input('name'));
 
             if ($role instanceof Permissible)
             {
-                $role->syncPermissions($request->get('permissions'));
+                $role->syncPermissions((array) $request->input('permissions'));
             }
 
             $this->security()->roles()->save($role);
@@ -446,14 +446,14 @@ class RoleController extends Controller
             $request->only(['name', 'permission']),
             $this->getSorting($request),
             $limit,
-            ($request->get('page', 1) - 1) * $limit
+            ($request->input('page', 1) - 1) * $limit
         );
     }
 
     private function getSorting(Request $request)
     {
-        $sortBy    = $request->get('sort_by')    ?: 'name';
-        $sortSense = $request->get('sort_sense') ?: 'asc';
+        $sortBy    = $request->input('sort_by')    ?: 'name';
+        $sortSense = $request->input('sort_sense') ?: 'asc';
 
         return [
             $this->sortings[$sortBy] => $sortSense
