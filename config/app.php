@@ -150,13 +150,15 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Digbang\Backoffice\BackofficeServiceProvider::class,
         LaravelDoctrine\ORM\DoctrineServiceProvider::class,
-        
+        Barryvdh\Debugbar\ServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        App\Providers\InfrastructureServiceProvider::class,
 
         LaravelBA\RouteBinder\RouteBinderServiceProvider::class,
     ],
