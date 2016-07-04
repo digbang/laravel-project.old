@@ -1,6 +1,5 @@
 [ -r /etc/bashrc ] && source /etc/bashrc
 [ -r /etc/bash_completion ] && source /etc/bash_completion
-[ -r /etc/bash_completion.d/git ] && source /etc/bash_completion.d/git
 [ -r ~/.git-completion.bash ] && source ~/.git-completion.bash
 [ -r ~/.git-prompt.sh ] && source ~/.git-prompt.sh
 [ -r /usr/local/rvm/scripts/rvm ] && source /usr/local/rvm/scripts/rvm

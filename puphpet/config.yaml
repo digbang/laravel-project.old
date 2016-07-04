@@ -1,28 +1,31 @@
 vagrantfile:
     target: local
     vm:
-        box: puphpet/centos65-x64
-        box_url: puphpet/centos65-x64
-        hostname: project-name
-        memory: '2048'
-        cpus: '2'
-        chosen_provider: virtualbox
-        network:
-            private_network: 10.1.2.22
-            forwarded_port:
-                vflnp_qjjj53159gw1:
-                    host: '8243'
-                    guest: '22'
-        post_up_message: ''
         provider:
-            virtualbox:
-                modifyvm:
-                    natdnshostresolver1: 'on'
-                showgui: '0'
-            vmware:
-                numvcpus: 1
-            parallels:
-                cpus: 1
+            local:
+                box: puphpet/centos65-x64
+                box_url: puphpet/centos65-x64
+                box_version: 'false'
+                chosen_virtualizer: virtualbox
+                virtualizers:
+                    virtualbox:
+                        modifyvm:
+                            natdnshostresolver1: false
+                        showgui: 0
+                    vmware:
+                        numvcpus: 1
+                    parallels:
+                        use_linked_clone: 0
+                        check_guest_tools: 0
+                        update_guest_tools: 0
+                machines:
+                    vflm_d9w0v2f23nvm:
+                        id: project-name-box
+                        hostname: local.project-name.db
+                        network:
+                            private_network: 10.1.2.10
+                        memory: '2048'
+                        cpus: '2'
         provision:
             puppet:
                 manifests_path: puphpet/puppet/manifests
@@ -31,46 +34,55 @@ vagrantfile:
                     - '--verbose'
                     - '--hiera_config /vagrant/puphpet/puppet/hiera.yaml'
         synced_folder:
-          vflsf_dkp3yok6tig4:
-            source: ./
-            target: /var/www/html/local.project-name.db
-            sync_type: default
-            smb:
-                smb_host: ''
-                smb_username: ''
-                smb_password: ''
-            rsync:
-                args:
-                    - '--verbose'
-                    - '--archive'
-                    - '-z'
-                exclude:
-                    - .vagrant/
-                    - .git/
-                auto: 'true'
-            owner: vagrant
-            group: vagrant
+            vflsf_60xdyllzzppb:
+                source: ./
+                target: /var/www/html/local.project-name.db
+                sync_type: default
+                smb:
+                    smb_host: ''
+                    smb_username: ''
+                    smb_password: ''
+                    mount_options:
+                        dir_mode: '0775'
+                        file_mode: '0664'
+                rsync:
+                    args:
+                        - '--verbose'
+                        - '--archive'
+                        - '-z'
+                    exclude:
+                        - .vagrant/
+                        - .git/
+                    auto: 'true'
+                owner: vagrant
+                group: vagrant
         usable_port_range:
             start: 10200
             stop: 10500
+        post_up_message: ''
     ssh:
-        host: null
-        port: null
-        private_key_path: null
+        host: 'false'
+        port: 'false'
+        private_key_path: 'false'
         username: vagrant
-        guest_port: null
-        keep_alive: true
-        forward_agent: false
-        forward_x11: false
+        guest_port: 'false'
+        keep_alive: '1'
+        forward_agent: 'false'
+        forward_x11: 'false'
         shell: 'bash -l'
-        insert_key: false
+        insert_key: 'false'
     vagrant:
         host: detect
+    proxy:
+        http: ''
+        https: ''
+        ftp: ''
+        no_proxy: ''
 server:
     install: '1'
     packages:
-        - vim
         - dos2unix
+        - vim-common
 users_groups:
     install: '1'
     groups: {  }
@@ -83,10 +95,11 @@ locale:
             - en_GB.UTF-8
             - en_US.UTF-8
             - es_AR.UTF-8
+        timezone: America/Argentina/Buenos_Aires
 firewall:
     install: '1'
     rules:
-        fr_05d7z2zauxbm:
+        fr_r3kvfp2j4amg:
             port:
                 - '3000'
                 - '5432'
@@ -104,7 +117,7 @@ firewall:
 cron:
     install: '1'
     jobs:
-        cj_dhpnpfvyugqj:
+        cj_lq051c4gs80y:
             name: 'Laravel scheduled jobs'
             user: vagrant
             command: 'php /vagrant/artisan schedule:run >> /dev/null 2>&1'
@@ -127,13 +140,13 @@ nginx:
         names_hash_bucket_size: 128
     upstreams: {  }
     vhosts:
-        nxv_65vkqu5n8k47:
+        nxv_abmf1sp65qcf:
             server_name: local.project-name.db
             www_root: /var/www/html/local.project-name.db/public
             listen_port: '80'
             index_files:
                 - index.php
-            client_max_body_size: 5m
+            client_max_body_size: 1m
             ssl: '1'
             ssl_cert: ''
             ssl_key: ''
@@ -142,10 +155,8 @@ nginx:
             ssl_ciphers: ''
             rewrite_to_https: '1'
             locations:
-                nxvl_9907pb3b4380:
+                nxvl_l1qs9ff74pkd:
                     location: /
-                    autoindex: 'off'
-                    internal: 'false'
                     try_files:
                         - $uri
                         - $uri/
@@ -155,10 +166,8 @@ nginx:
                     fastcgi_split_path: ''
                     proxy: ''
                     proxy_redirect: ''
-                nxvl_8zfjg1vrinkn:
+                nxvl_6h64zsn9mcrq:
                     location: '~ \.php$'
-                    autoindex: 'off'
-                    internal: 'false'
                     try_files:
                         - $uri
                         - $uri/
@@ -177,6 +186,7 @@ nginx:
 apache:
     install: '0'
     settings:
+        version: 2.4
         user: www-data
         group: www-data
         default_vhost: true
@@ -187,7 +197,7 @@ apache:
         - proxy_fcgi
         - rewrite
     vhosts:
-        av_fn8vi2s44e9d:
+        av_ibjrbtjp73s3:
             servername: awesome.dev
             serveraliases:
                 - www.awesome.dev
@@ -206,7 +216,7 @@ apache:
             ssl_protocol: ''
             ssl_cipher: ''
             directories:
-                avd_iz24alkjbfda:
+                avd_ibwq1jhivyzx:
                     path: /var/www/awesome
                     options:
                         - Indexes
@@ -218,12 +228,17 @@ apache:
                         - 'all granted'
                     custom_fragment: ''
                     files_match:
-                        avdfm_iq7voc08q8k3:
+                        avdfm_5cjpsxy1ylsr:
                             path: \.php$
                             sethandler: 'proxy:fcgi://127.0.0.1:9000'
                             custom_fragment: ''
                             provider: filesmatch
                     provider: directory
+letsencrypt:
+    install: '1'
+    settings:
+        email: ''
+    domains: {  }
 php:
     install: '1'
     settings:
@@ -247,7 +262,7 @@ php:
     fpm_ini:
         error_log: /var/log/php-fpm.log
     fpm_pools:
-        phpfp_avenbz6n66sa:
+        phpfp_i3ahhyussmfj:
             ini:
                 prefix: www
                 listen: '127.0.0.1:9000'
@@ -255,7 +270,7 @@ php:
                 user: vagrant
                 group: vagrant
     composer: '1'
-    composer_home: '/vagrant'
+    composer_home: /vagrant
 xdebug:
     install: '1'
     settings:
@@ -290,10 +305,13 @@ drush:
 ruby:
     install: '1'
     versions:
-        rv_yygtge79phgx:
+        rv_a6bmvkelmy6d:
             default: '1'
             bundler: '1'
             version: 1.9.3
+        rv_n4650xfwuqed:
+            bundler: '1'
+            version: 2.3.0
 python:
     install: '1'
     packages: {  }
@@ -302,12 +320,12 @@ nodejs:
     install: '1'
     settings:
         version: '5'
-    npm_packages: { }
+    npm_packages: {  }
 hhvm:
     install: '0'
     nightly: 0
     composer: '1'
-    composer_home: '/vagrant'
+    composer_home: /vagrant
     settings: {  }
     server_ini:
         hhvm.server.host: 127.0.0.1
@@ -322,41 +340,44 @@ mariadb:
     install: '0'
     settings:
         version: '10.1'
-        root_password: '123'
+        root_password: digbang
         override_options: {  }
     adminer: 0
     users:
-        mariadbnu_5m6tf361l1q7:
-            name: dbuser
-            password: '123'
+        mariadbnu_p84kvnk75v86:
+            name: project-name
+            password: project-name
     databases:
-        mariadbnd_dfwuz803xkzz:
-            name: dbname
+        mariadbnd_1hudwojt763x:
+            name: project-name
             sql: ''
     grants:
-        mariadbng_6pi64rkk8d96:
-            user: dbuser
+        mariadbng_4ipyju5zh1ls:
+            user: project-name
             table: '*.*'
             privileges:
                 - ALL
 mysql:
-    install: '0'
+    install: '1'
     settings:
-        version: '5.5'
-        root_password: '123'
-        override_options: {  }
+        version: '5.6'
+        root_password: digbang
+        create_root_my_cnf: true
+        override_options:
+            mysqld:
+                bind-address: '*'
     adminer: 0
     users:
-        mysqlnu_qd1cxfl01iwr:
-            name: dbuser
-            password: '123'
+        mysqlnu_ho14sf99sqiq:
+            name: 'project-name@%'
+            password: project-name
     databases:
-        mysqlnd_sq2yugtodsro:
-            name: dbname
+        mysqlnd_h9o25hupmbkh:
+            name: project-name
             sql: ''
     grants:
-        mysqlng_6ofynkl2e5v7:
-            user: dbuser
+        mysqlng_37ll2of4rmta:
+            user: project-name
             table: '*.*'
             privileges:
                 - ALL
@@ -368,42 +389,33 @@ postgresql:
             version: '9.4'
         server:
             postgres_password: postgres
-            listen_addresses: '*'
     databases:
-        postsqlnd_ybij77mvpz9d:
+        postsqlnd_m61k3ce8nhpl:
             dbname: project-name
             owner: project-name
     users:
-        postsqlnu_6xahu7e6jdrp:
+        postsqlnu_6ulgo8ds09qt:
             username: project-name
             password: project-name
     grants:
-        postsqlng_0gyvp0rbwfqt:
+        postsqlng_dth4fn0lk3b9:
             role: project-name
             db: project-name
             privilege:
                 - ALL
-    hba_rules:
-        "allow application network to access app database":
-            type: host
-            database: all
-            user: all
-            address: '10.1.2.0/24'
-            auth_method: md5
     adminer: 0
 mongodb:
     install: '0'
     settings:
-        auth: 1
         bind_ip: 127.0.0.1
         port: '27017'
     globals:
-        version: 2.6.0
+        version: 2.6.11-1
     databases: {  }
 redis:
     install: '1'
     settings:
-        conf_port: '6379'
+        port: '6379'
 sqlite:
     install: '1'
     adminer: 0
@@ -439,6 +451,7 @@ elastic_search:
     settings:
         version: 2.1.0
         java_install: true
+    instances: {  }
 solr:
     install: '0'
     settings:

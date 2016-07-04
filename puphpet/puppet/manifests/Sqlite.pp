@@ -42,6 +42,24 @@ class puphpet_sqlite(
     })
   }
 
+  case $::operatingsystem {
+    'debian': {
+      $php_sqlite = 'sqlite'
+    }
+    'ubuntu': {
+      $php_sqlite = 'sqlite3'
+    }
+    'redhat', 'centos': {
+      $php_sqlite = 'sqlite3'
+    }
+  }
+
+  if $php_package == 'php' and ! defined(Puphpet::Php::Module[$php_sqlite]) {
+    puphpet::php::module { $php_sqlite:
+      service_autorestart => true,
+    }
+  }
+
   if array_true($sqlite, 'adminer')
     and $php_package
     and ! defined(Class['puphpet::adminer'])

@@ -16,7 +16,7 @@ class mysql::server::install {
     $config_file = $mysql::server::config_file
 
     if $mysql::server::manage_config_file {
-      $install_db_args = "--basedir=${basedir} --defaults-extra-file=${config_file} --datadir=${datadir} --user=${mysqluser}"
+      $install_db_args = "--defaults-extra-file=${config_file} --basedir=${basedir} --datadir=${datadir} --user=${mysqluser}"
     } else {
       $install_db_args = "--basedir=${basedir} --datadir=${datadir} --user=${mysqluser}"
     }

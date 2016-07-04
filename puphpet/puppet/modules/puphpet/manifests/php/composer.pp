@@ -13,9 +13,13 @@ class puphpet::php::composer (
   if $composer_home_real {
     file { $composer_home_real:
       ensure  => directory,
-      owner   => 'vagrant',
-      group   => 'vagrant',
-      mode    => '0775'
+      owner   => 'www-data',
+      group   => 'www-data',
+      mode    => '0775',
+      require => [
+        Group['www-data'],
+        Group['www-user']
+      ],
     }
 
     file_line { "COMPOSER_HOME=${composer_home_real}":
@@ -27,11 +31,11 @@ class puphpet::php::composer (
   class { '::composer':
     target_dir      => '/usr/local/bin',
     composer_file   => 'composer',
-    download_method => 'curl',
+    download_method => 'wget',
     logoutput       => false,
     tmp_path        => '/tmp',
     php_package     => $php_package,
-    curl_package    => 'curl',
     suhosin_enabled => false,
   }
+
 }

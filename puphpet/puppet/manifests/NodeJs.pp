@@ -1,6 +1,7 @@
 class puphpet_nodejs (
   $nodejs
 ) {
+
   if array_true($nodejs, 'settings')
     and array_true($nodejs['settings'], ['version'])
   {
@@ -9,54 +10,40 @@ class puphpet_nodejs (
     $version_num = '0.12'
   }
 
+  if $::osfamily == 'debian' {
+    if ! defined('apt-transport-https') {
+      package { 'apt-transport-https':
+        ensure => present,
+        before => Exec['add nodejs repo']
+      }
+    }
+  }
+
   $provider = $::osfamily ? {
     'debian' => 'deb',
     default  => 'rpm'
   }
 
   $version = $version_num ? {
-    '5'     => 'latest-v5.x',
-    '4'     => 'latest-v4.x',
-    '0.12'  => 'latest-v0.12.x',
-    '0.10'  => 'latest-v0.10.x',
-    default => "latest"
+    '5'     => '5.x',
+    '4'     => '4.x',
+    '0.12'  => '0.12',
+    '0.10'  => '0.10',
+    default => "${version_num}.x"
   }
 
-  $url = "https://${provider}.nodesource.com/${version}"
+  $url = "https://${provider}.nodesource.com/setup_${version}"
 
   $save_to = '/.puphpet-stuff/nodesource'
 
-  file { '/.puphpet-stuff/nodejs_installer.sh':
-
-    ensure => present,
-    content => "#!/bin/bash
-ARCH=$(uname -m)
-
-if [ \"\${ARCH}\" == 'i386' ] || [ \"\${ARCH}\" == 'i686' ]; then
-    FILENAME='linux-x86.tar.gz'
-else
-    FILENAME='linux-x64.tar.gz'
-fi
-
-LATEST_NODE=$(curl 'http://nodejs.org/dist/${version}/SHASUMS256.txt' | grep \"\${FILENAME}\" | awk '{ print \$2 }')
-wget --quiet --tries=5 --connect-timeout=10 --no-check-certificate -O '/.puphpet-stuff/nodestable.tar.gz' \"http://nodejs.org/dist/${version}/\${LATEST_NODE}\"
-
-cd '/usr/local/'
-
-tar xzvf '/.puphpet-stuff/nodestable.tar.gz' --strip=1
-
-ln -sf '/usr/local/bin/node' '/usr/bin/node'
-ln -sf '/usr/local/bin/node' '/usr/bin/nodejs'
-ln -sf '/usr/local/bin/npm' '/usr/bin/npm'
-"
-  }
-
-
-  exec { 'install nodejs':
-    command => "bash /.puphpet-stuff/nodejs_installer.sh",
-    creates => '/usr/local/bin/node',
+  exec { 'add nodejs repo':
+    command => "wget --quiet --tries=5 --connect-timeout=10 -O '${save_to}' ${url} \
+                && bash ${save_to}",
+    creates => $save_to,
     path    => '/usr/bin:/bin',
-    require => File['/.puphpet-stuff/nodejs_installer.sh']
+  }
+  -> package { 'nodejs':
+    ensure => present,
   }
 
   each( $nodejs['npm_packages'] ) |$package| {
@@ -72,8 +59,9 @@ ln -sf '/usr/local/bin/npm' '/usr/bin/npm'
       package { $npm_array[0]:
         ensure   => $npm_ensure,
         provider => npm,
-        require  => Exec['install nodejs']
+        require  => Package['nodejs']
       }
     }
   }
+
 }

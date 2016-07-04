@@ -62,6 +62,19 @@ if [[ ! -f '/.puphpet-stuff/iptables-persistent-installed' ]] && [[ "${OS}" == '
     touch '/.puphpet-stuff/iptables-persistent-installed'
 fi
 
+if [[ ! -f '/.puphpet-stuff/software-properties-common' ]] && [[ "${OS}" == 'debian' || "${OS}" == 'ubuntu' ]]; then
+    apt-get -y install software-properties-common python-software-properties
+
+    touch '/.puphpet-stuff/software-properties-common'
+fi
+
+if [[ ! -f /.puphpet-stuff/initial-setup-scl-repo && "${OS}" == 'centos' ]]; then
+    yum -y remove centos-release-SCL >/dev/null
+    yum -y install centos-release-scl >/dev/null
+
+    touch /.puphpet-stuff/initial-setup-scl-repo
+fi
+
 if [[ -f '/.puphpet-stuff/initial-setup-base-packages' ]]; then
     exit 0
 fi
